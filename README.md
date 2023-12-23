@@ -7,5 +7,7 @@ An in house ETL framework for moving data to where it has to go.
 Running the postgres database independantly...
 
 ```sh
-
+docker rmi postgres-postgres -f && \
+docker system prune -f && \
+docker compose -f ./test_databases/postgres/docker-compose.yml up
 ```

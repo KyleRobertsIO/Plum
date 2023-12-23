@@ -30,7 +30,7 @@ class PostgresEngine:
         return (key_col, tuple_col)
     
 
-    def bulk_insert(self, data) -> Optional[Exception]:
+    def bulk_insert(self, table: str, data: List[dict]) -> Optional[Exception]:
         conn, conn_err = self._create_connection()
         if conn_err != None:
             return conn_err
@@ -41,7 +41,7 @@ class PostgresEngine:
 
         try:
             with cursor.copy(
-                statement = f"COPY dbo.staging_sales ({', '.join(key_col)}) FROM STDIN"
+                statement = f"COPY {table} ({', '.join(key_col)}) FROM STDIN"
             ) as copy:
                 for record in tuple_col:
                     copy.write_row(record)

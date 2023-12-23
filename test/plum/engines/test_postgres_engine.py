@@ -42,3 +42,28 @@ def test_create_bulk_insert_details(
     assert second_record[0] == "Jane"
     assert second_record[1] == "Doe"
     assert second_record[2] == 35
+
+@pytest.mark.integration_postgres
+def test_bulk_insert(
+    get_postgres_sql_login_connector: PostgresSqlLoginConnector
+):
+    pg_engine = PostgresEngine(connector = get_postgres_sql_login_connector)
+
+    data = [
+        { "first_name": "John", "last_name": "Smith", "age": 43 },
+        { "first_name": "Jane", "last_name": "Doe", "age": 35 }
+    ]
+
+    insert_err: Exception = pg_engine.bulk_insert(
+        table = "dbo.staging_person", 
+        data = data
+    )
+
+    assert insert_err == None, f'failed to perform bulk insert; {insert_err.args}'
+
+    forced_insert_err: Exception = pg_engine.bulk_insert(
+        table = "dbo.staging_person_unknown", 
+        data = data
+    )
+
+    assert forced_insert_err != None, 'expected to get bulk insert error but did not get one'

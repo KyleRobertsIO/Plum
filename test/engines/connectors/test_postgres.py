@@ -1,6 +1,6 @@
 import pytest
 
-from plum.engines.connectors.postgresql import PostgresSqlLoginConnector
+from src.plum.engines.connectors.postgresql import PostgresSqlLoginConnector
 
 @pytest.mark.unit
 def test_postgres_sql_login_get_psycopg_connection_string():

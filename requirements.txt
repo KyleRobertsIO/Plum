@@ -4,3 +4,7 @@ python-dotenv
 requests
 
 pytest
+
+setuptools
+wheel
+twine

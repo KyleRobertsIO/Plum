@@ -6,3 +6,4 @@ __pycache__
 # Package build
 *.egg-info
 dist
+build

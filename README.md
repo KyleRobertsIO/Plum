@@ -13,3 +13,26 @@ docker rmi postgres-postgres -f && \
 docker system prune -f && \
 docker compose -f ./test_databases/postgres/docker-compose.yml up
 ```
+## Building Package
+
+The below command will build the package locally.
+
+```sh
+python setup.py sdist bdist_wheel
+```
+
+## Releasing To PyPi
+
+The below command will release the package to PyPi leverage a secrets file stored locally in `$HOME/.pypirc`.
+
+```sh
+python -m twine upload dist/*
+```
+
+Below is a example of the `.pypirc` file contents. The password aka token is provided from PyPi.
+
+```
+[pypi]
+username = __token__
+password = pypi-XXXX
+```

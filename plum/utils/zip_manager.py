@@ -32,7 +32,7 @@ def download_zip(
 ) -> Optional[Exception]:
     res: requests.Response = requests.get(url = url, stream = True)
     if res.status_code > 200:
-        return Exception(f'failed to GET from "{url}"')
+        return Exception(f'failed to GET from "{url}"; {res.json()}')
     try:
         with open(file = file_path, mode = 'wb') as file_download:
             for chunk in res.iter_content(chunk_size = chunk_size):

@@ -2,6 +2,14 @@
 
 An in house ETL framework for moving data to where it has to go.
 
+## References
+
+Here are the repository references for quick access.
+
+### Project Maintainers
+
+- [Automated Testing](./docs/project/automated-testing.md)
+
 ## Development
 
 You need to supply a `.env` file under `test_databases/postgres` for the database setup.

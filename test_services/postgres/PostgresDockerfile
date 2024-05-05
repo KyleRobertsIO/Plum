@@ -1,0 +1,28 @@
+FROM postgres:15-bullseye
+
+WORKDIR /workspace
+
+ARG POSTGRES_DB_USERNAME
+ARG POSTGRES_DB_PASSWORD
+ARG POSTGRES_DB_NAME
+
+RUN apt-get install postgresql-client
+
+COPY ./postgres_setup.sql ./setup.sql
+
+COPY ./postgres_entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
+USER postgres
+
+RUN chmod 0700 /var/lib/postgresql/data &&\
+    initdb /var/lib/postgresql/data &&\
+    echo "host all  all    127.0.0.1/32  md5" >> /var/lib/postgresql/data/pg_hba.conf &&\
+    echo "host all  all    0.0.0.0/0  md5" >> /var/lib/postgresql/data/pg_hba.conf &&\
+    echo "listen_addresses='*'" >> /var/lib/postgresql/data/postgresql.conf &&\
+    pg_ctl start &&\
+    psql -c "CREATE DATABASE $POSTGRES_DB_NAME" &&\
+    psql -c "CREATE USER $POSTGRES_DB_USERNAME WITH ENCRYPTED PASSWORD '$POSTGRES_DB_PASSWORD'" &&\
+    psql -c "GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB_NAME to $POSTGRES_DB_USERNAME"
+
+ENTRYPOINT ["./entrypoint.sh"]

@@ -1,0 +1,11 @@
+.env
+__pycache__
+.venv
+.pytest_cache
+junit
+.coverage
+
+# Package build
+*.egg-info
+dist
+build

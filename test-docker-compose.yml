@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+
+  library_tests:
+    container_name: library_tets
+    build: .
+    environment:
+      - TEST_S3_ACCESS_KEY_ID=${TEST_S3_ACCESS_KEY_ID}
+      - TEST_S3_ACCESS_KEY_SECRET=${TEST_S3_ACCESS_KEY_SECRET}
+      - TEST_S3_BUCKET_NAME=${TEST_S3_BUCKET_NAME}
+      - TEST_S3_TLS=${TEST_S3_TLS}
+      - TEST_S3_HOST=${TEST_S3_HOST}
+      - TEST_S3_PORT=${TEST_S3_PORT}
+
+      - TEST_POSTGRES_HOST=${TEST_POSTGRES_HOST}
+      - TEST_POSTGRES_PORT=${TEST_POSTGRES_PORT}
+      - TEST_POSTGRES_DATABASE=${TEST_POSTGRES_DATABASE}
+      - TEST_POSTGRES_USERNAME=${TEST_POSTGRES_USERNAME}
+      - TEST_POSTGRES_PASSWORD=${TEST_POSTGRES_PASSWORD}
+    volumes:
+      - ./junit:/library_testing/junit
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000" # S3 API port
+      - "9001:9001" 
+    environment:
+      - MINIO_ROOT_USER=${TEST_S3_ACCESS_KEY_ID}
+      - MINIO_ROOT_PASSWORD=${TEST_S3_ACCESS_KEY_SECRET}
+    entrypoint: sh
+    command: -c '/usr/bin/minio server --console-address ":9001" /data'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 1s
+      timeout: 5s
+      retries: 3
+  
+  postgres:
+    build:
+      context: ./test_services/postgres
+      dockerfile: PostgresDockerfile
+      args:
+        POSTGRES_DB_USERNAME: ${TEST_POSTGRES_USERNAME}
+        POSTGRES_DB_PASSWORD: ${TEST_POSTGRES_PASSWORD}
+        POSTGRES_DB_NAME: ${TEST_POSTGRES_DATABASE}
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB_USERNAME=${TEST_POSTGRES_USERNAME}
+      - POSTGRES_DB_PASSWORD=${TEST_POSTGRES_PASSWORD}
+      - POSTGRES_DB_NAME=${TEST_POSTGRES_DATABASE}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "${TEST_POSTGRES_DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

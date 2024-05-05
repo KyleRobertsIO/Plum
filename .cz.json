@@ -1,0 +1,98 @@
+{
+  "commitizen": {
+    "name": "cz_customize",
+    "tag_format": "$version",
+    "version_scheme": "semver",
+    "version": "0.0.1",
+    "update_changelog_on_bump": true,
+    "major_version_zero": false,
+    "customize": {
+      "message_template": "{{change_type}}{% if change_scope %}({{change_scope}}){% endif %}:{% if change_message %} {{change_message}}{% endif %}",
+      "example": "feature: this feature enable customize through config file",
+      "schema": "<type>(<scope>): <subject>",
+      "schema_pattern": "<type>(<scope>): <subject>",
+      "bump_pattern": "^(break|feature|fix)",
+      "bump_map": {
+        "break": "MAJOR",
+        "feature": "MINOR",
+        "fix": "PATCH",
+        "hotfix": "PATCH"
+      },
+      "change_type_order": [
+        "break",
+        "feature",
+        "fix",
+        "refactor",
+        "performance"
+      ],
+      "info_path": "cz_customize_info.txt",
+      "info": "This is customized info",
+      "commit_parser": "^(?P<change_type>feature|fix|break)(?:\\((?P<scope>[^()\r\n]*)\\)|\\w+!):\\s(?P<message>.*)?",
+      "changelog_pattern": "^(break|feature|fix)",
+      "change_type_map": {
+        "break": "Breaking Change",
+        "feature": "Feature",
+        "fix": "Fix"
+      },
+      "questions": [
+        {
+          "type": "list",
+          "name": "change_type",
+          "choices": [
+            {
+              "value": "feature",
+              "name": "feature: A new feature. Correlates with MINOR in SemVer"
+            },
+            {
+              "value": "fix",
+              "name": "fix: A bug fix. Correlates with PATCH in SemVer"
+            },
+            {
+              "value": "docs",
+              "name": "docs: Documentation only changes"
+            },
+            {
+              "value": "style",
+              "name": "style: A bug fix. Changes that do not affect the meaning of code (white-space, formatting, etc)"
+            },
+            {
+              "value": "refactor",
+              "name": "refactor: A code change that neither fixes a bug nor adds a feature"
+            },
+            {
+              "value": "performance",
+              "name": "performance: A code change that improves performance"
+            },
+            {
+              "value": "test",
+              "name": "test: Adding missing or correcting existing tests"
+            },
+            {
+              "value": "build",
+              "name": "build: Changes that affect the build system or external dependencies (example scopes: pip, docker, npm)"
+            },
+            {
+              "value": "ci",
+              "name": "ci: Changes to our CI configuration files and scripts"
+            },
+            {
+              "value": "break",
+              "name": "breaking change: Changes that impact use of software"
+            }
+          ],
+          "message": "Select the type of change you are committing (Use arrow keys)"
+        },
+        {
+          "type": "input",
+          "name": "change_scope",
+          "message": "What is the scope of this change? (class, file name, module): (press [enter] to skip)\n"
+        },
+        {
+          "type": "input",
+          "name": "change_message",
+          "message": "Write a short and imperative summary of the code changes: (lower case and no period)\n"
+        }
+      ]
+    }
+  }
+}

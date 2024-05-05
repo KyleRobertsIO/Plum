@@ -1,0 +1,17 @@
+# PostgreSql requirements
+psycopg[binary]
+
+# S3 requirements
+boto3
+botocore
+
+python-dotenv
+
+requests
+
+pytest
+pytest-cov
+
+setuptools
+wheel
+twine

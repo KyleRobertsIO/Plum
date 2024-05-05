@@ -3,7 +3,7 @@ version: "3.9"
 services:
 
   library_tests:
-    container_name: library_tets
+    container_name: library_tests
     build: .
     environment:
       - TEST_S3_ACCESS_KEY_ID=${TEST_S3_ACCESS_KEY_ID}

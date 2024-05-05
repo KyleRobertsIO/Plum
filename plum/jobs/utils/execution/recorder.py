@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 class ExecutionRecorderTimeError(Exception):
     def __init__(self, msg: str):
         super().__init__(
-            f"an issue around execition time tracking took place in ExecutionRecorder; {msg}"
+            f"an issue around execution time tracking took place in ExecutionRecorder; {msg}"
         )
 
 class ExecutionTimeError(ExecutionRecorderTimeError):

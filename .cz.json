@@ -1,11 +1,15 @@
 {
   "commitizen": {
     "name": "cz_customize",
-    "tag_format": "$version",
+    "tag_format": "$major.$minor.$patch",
     "version_scheme": "semver",
     "version": "0.0.1",
     "update_changelog_on_bump": true,
     "major_version_zero": false,
+    "version_files": [
+      "plum/__version__.py",
+      "setup.py:version"
+    ],
     "customize": {
       "message_template": "{{change_type}}{% if change_scope %}({{change_scope}}){% endif %}:{% if change_message %} {{change_message}}{% endif %}",
       "example": "feature: this feature enable customize through config file",

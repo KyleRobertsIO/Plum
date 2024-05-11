@@ -56,6 +56,6 @@ jobs:
             name: python-package-distributions
             path: dist/
         - name: Publish distribution to TestPyPI
-          uses: pyga/gh-action-pypi@release/v1
+          uses: pypa/gh-action-pypi@release/v1
           with:
               repository-url: https://test.pypi.org/legacy/

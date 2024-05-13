@@ -4,10 +4,10 @@
 name: PyPI-Publish
 
 on:
-    workflow_dispatch:
-    push:
-      branches:
-        - pypi_releases
+  workflow_dispatch:
+  push:
+    branches:
+      - pypi_releases
 
 jobs:
     build-python-package:

@@ -2,7 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'plum-project',
-    version = '0.0.3',
+    version = '0.0.1',
+    description = 'A python data job framework to simplify development and operations.',
+    long_description = 'A python data job framework to simplify development and operations.',
+    long_description_content_type = "text/markdown",
+    keywords = ['data', 'etl', 'jobs'],
     packages = find_packages(),
     install_requires = [
         'psycopg[binary]==3.1.16',

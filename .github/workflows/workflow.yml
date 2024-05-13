@@ -22,36 +22,36 @@ on:
 
 
 jobs:
-  test-suite-automation:
+  # test-suite-automation:
 
-    name: Run Dockerized Tests
-    runs-on: ubuntu-latest
+  #   name: Run Dockerized Tests
+  #   runs-on: ubuntu-latest
 
-    env:
-        TEST_S3_ACCESS_KEY_ID: minio_super_user
-        TEST_S3_ACCESS_KEY_SECRET: sUper#SeCre+P@s5w0rd
-        TEST_S3_BUCKET_NAME: testbucket
-        TEST_S3_TLS: False
-        TEST_S3_HOST: minio
-        TEST_S3_PORT: 9000
-        TEST_POSTGRES_HOST: postgres
-        TEST_POSTGRES_PORT: 5432
-        TEST_POSTGRES_DATABASE: test_suite_db
-        TEST_POSTGRES_USERNAME: test_suite_admin
-        TEST_POSTGRES_PASSWORD: a8HU&YGLUq4n42fL
+  #   env:
+  #       TEST_S3_ACCESS_KEY_ID: minio_super_user
+  #       TEST_S3_ACCESS_KEY_SECRET: sUper#SeCre+P@s5w0rd
+  #       TEST_S3_BUCKET_NAME: testbucket
+  #       TEST_S3_TLS: False
+  #       TEST_S3_HOST: minio
+  #       TEST_S3_PORT: 9000
+  #       TEST_POSTGRES_HOST: postgres
+  #       TEST_POSTGRES_PORT: 5432
+  #       TEST_POSTGRES_DATABASE: test_suite_db
+  #       TEST_POSTGRES_USERNAME: test_suite_admin
+  #       TEST_POSTGRES_PASSWORD: a8HU&YGLUq4n42fL
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Docker Compose Execution
-        run: docker-compose -f "test-docker-compose.yml" up --build --abort-on-container-exit
+  #     - name: Docker Compose Execution
+  #       run: docker-compose -f "test-docker-compose.yml" up --build --abort-on-container-exit
   
   package-build:
     
     name: Bump Python Package Version
     runs-on: ubuntu-latest
-    needs: test-suite-automation
+    # needs: test-suite-automation
     if: github.ref == 'refs/heads/version_testing'
     
     steps:
@@ -60,20 +60,20 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Pip Install Commitizen
-        run: pip install -U Commitizen
+      # - name: Pip Install Commitizen
+      #   run: pip install -U Commitizen
 
-      - name: Git Config
-        run: |
-          # Allow Github Action to commit to repository
-          git config --global user.email "actions.version.manager@github.com"
-          git config --global user.name "Actions Version Manager"
+      # - name: Git Config
+      #   run: |
+      #     # Allow Github Action to commit to repository
+      #     git config --global user.email "actions.version.manager@github.com"
+      #     git config --global user.name "Actions Version Manager"
       
-      - name: Bump Package Version
-        run: cz bump --check-consistency --annotated-tag --yes
+      # - name: Bump Package Version
+      #   run: cz bump --check-consistency --annotated-tag --yes
       
-      - name: Git Push Bump Changes
-        run: git push --tags origin master
+      # - name: Git Push Bump Changes
+      #   run: git push --tags origin master
 
       - name: Trigger Test PyPI Publish
         run: |

@@ -1,7 +1,7 @@
 # Reference:
 # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
-name: PyPI-Publish
+name: Test-PyPI-Publish
 
 on:
   workflow_dispatch:
@@ -13,7 +13,8 @@ jobs:
 
       steps:
           - uses: actions/checkout@v4
-          - name: Set up Python
+          
+          - name: Set Up Python
             uses: actions/setup-python@v5
             with:
               python-version: "3.x"
@@ -51,7 +52,16 @@ jobs:
           with:
             name: python-package-distributions
             path: dist/
+
         - name: Publish distribution to TestPyPI
           uses: pypa/gh-action-pypi-publish@release/v1
           with:
             repository-url: https://test.pypi.org/legacy/
+        
+        - name: Trigger PyPI Publish
+          run: |
+            curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/test_pypi_publish.yml/dispatches \
+            -d '{"ref": "master"}'

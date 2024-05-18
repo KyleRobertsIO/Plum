@@ -11,6 +11,8 @@ setup(
     install_requires = [
         'psycopg[binary]==3.1.16',
         'requests==2.31.0',
-        'python-dotenv==1.0.0'
+        'python-dotenv==1.0.1',
+        'boto3==1.34.64',
+        'botocore==1.34.64'
     ]
 )

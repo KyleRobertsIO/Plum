@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'plum-project',
-    version = '1.0.0',
+    version = '1.0.1',
     description = 'A python data job framework to simplify development and operations.',
     long_description = 'A python data job framework to simplify development and operations.',
     long_description_content_type = "text/markdown",
